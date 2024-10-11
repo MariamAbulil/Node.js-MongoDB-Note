@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= mytitle %></title>
+</head>
+<body>
+    <h1>Write your notes here:</h1>
+    <form method="post" action="/notes">
+        <input type="text" name="title" placeholder="Title" required>
+        <br><br>
+        <input type="text" name="content" placeholder="Content" required>
+        <br><br>
+        <input type="date" name="createdAt" placeholder="Creation Date" required>
+        <br><br>
+        <button type="submit">Save to DB</button>
+    </form>
+
+    <% if (arr.length > 0) { %>
+        <h2>Notes List:</h2>
+        <ul>
+            <% arr.forEach(note => { %>
+                <li>
+                    <strong>Title:</strong> <%= note.title %><br>
+                    <strong>Content:</strong> <%= note.content %><br>
+                    <strong>Date:</strong> <%= note.createdAt %><br>
+                    <form method="post" action="/notes/<%= note._id %>?_method=DELETE">
+                        <button type="submit">Delete</button>
+                    </form>
+                    <form method="post" action="/notes/<%= note._id %>?_method=PUT">
+                        <input type="text" name="title" placeholder="New Title" value="<%= note.title %>">
+                        <input type="text" name="content" placeholder="New Content" value="<%= note.content %>">
+                        <input type="date" name="createdAt" value="<%= note.createdAt %>">
+                        <button type="submit">Update</button>
+                    </form>
+                </li>
+                <hr>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <h2>No notes added yet!</h2>
+    <% } %>
+</body>
+</html>
